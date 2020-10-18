@@ -8,23 +8,26 @@ services:
      - ./config/php.conf.ini:/usr/local/etc/php/conf.d/conf.ini
      - ./data:/var/www/html
     ports:
-     - 84:84
+     - 443:443
     restart: always
     environment:
-     WORDPRESS_DB_HOST: base
-     WORDPRESS_DB_USER: root
-     WORDPRESS_DB_PASSWORD: "${DB_ROOT_PASSWORD}"
-     WORDPRESS_DB_NAME: "${DB_NAME}"
+     WORDPRESS_DB_HOST: base:3306
+     WORDPRESS_DB_USER: "${DB_USER}"
+     WORDPRESS_DB_PASSWORD: "${DB_PASSWORD}"
+     WORDPRESS_DB_NAME: "${dbpa13003UserWp}"
   base:
     image: mysql
     ports:
      - 3306:3306
     volumes:
-     - ./db-dump:/docker-entrypointinitdb.d
+     - ./db-dump:/docker-entrypoint-initdb.d
      - db_data:/var/lib/mysql/
     restart: always
     environment:
+     MYSQL_ROOT_USER: "${DB_ROOT_USER}"
      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-     MYSQL_DATABASE: "${DB_NAME}"
+     MYSQL_DATABASE: "${dbpa13003UserWp}"
+     MYSQL_USER: "${DB_USER}"
+     MYSQL_PASSWORD: "${DB_PASSWORD}"
 volumes:
   db_data:
